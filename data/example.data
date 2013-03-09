@@ -1,0 +1,4 @@
+COPY: example.css
+COPY: logo.gif
+#LINK: images /home/cdphysik/images
+#LINK: data /home/cdphysik/data

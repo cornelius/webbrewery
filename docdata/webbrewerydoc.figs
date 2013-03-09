@@ -1,0 +1,7 @@
+#beispiele
+#atlas:logo IMAGES/ATLASlogo.gif
+#asic:logo IMAGES/asiclogo_noborder_t.gif
+#testsys IMAGES/System.gif
+
+example:logo logo.png
+

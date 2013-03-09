@@ -1,0 +1,23 @@
+# This is the contents description of the web page hierarchy
+
+   index                    Home      --TEMPLATE:webbrewerydocindex
+
+# General help
+   intro                    Introduction
+   setup                    Setup
+   org                      Organisation
+
+# Reference
+   ref/index                Reference
+>  ref/files/index            Files
+>> ref/files/content            Contents
+>> ref/files/links              Links
+>> ref/files/fig                Figures
+>> ref/files/data               Data
+>  ref/symbols                Symbols
+
+# Sitemap
+   map                      Sitemap
+
+# About the brewery
+   about                    About...

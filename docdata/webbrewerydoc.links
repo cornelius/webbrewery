@@ -1,0 +1,38 @@
+#beispiele:
+#externer link
+#cern:home www.cern.ch
+#interner link
+#this:docs this:docs.html
+# * bedeutet: linkname=linkspec
+#this:DATA/docs/remman.ps *
+
+# The Style Sheet
+this:css this:webbrewerydoc.css
+
+mail:cornelius mailto:schumacher@asic.uni-heidelberg.de
+
+# Local pages
+this:intro         this:intro.html
+this:setup         this:setup.html
+this:org           this:org.html
+this:ref           this:ref
+this:files         this:ref/files/index.html
+this:files:content this:ref/files/content.html
+this:files:links   this:ref/files/links.html
+this:files:figs    this:ref/files/fig.html
+this:files:data    this:ref/files/data.html
+this:symbols       this:ref/symbols.html
+this:sitemap       this:map.html
+this:about         this:about.html
+
+# External links
+atlas www.cern.ch/atlas
+cern www.cern.ch
+atlashd wwwasic.kip.uni-heidelberg.de/atlas
+
+# Sourceforge links
+sf:home             sourceforge.net
+sf:wb:forums        sourceforge.net/forum/?group_id=9106
+sf:wb:download      sourceforge.net/project/showfiles.php?group_id=9106
+sf:wb:bugreports    sourceforge.net/bugs/?group_id=9106
+sf:wb:cvs           sourceforge.net/cvs/?group_id=9106

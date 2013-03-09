@@ -1,0 +1,16 @@
+<H1>The Data File</H1>
+
+<P>The data file defines data resources, i.e. data files not subject to
+processing by the WebBrewery. Each line of the data file defines a data
+ressource using the following format:</P>
+
+<P class=indent>
+  <CODE>OPERATION: location</CODE>
+</P>
+
+<P>There are two kinds of operations: <code>COPY:</code> means that the
+resource (a file or directory) at the given location is copied from the
+<code>src</code> directory to
+the output directory. <code>LINK:</code> means that the resource (a file or
+directory) is linked from the output directory to the given location unless it
+already exists as real file or directory at the output directory.</P>

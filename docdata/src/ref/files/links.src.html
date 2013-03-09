@@ -1,0 +1,35 @@
+<H1>The Link File</H1>
+
+<P>The link file contains definitions of hyperlinks. Each definition defines a
+link symbol, which can be used in the source files and a destination, pointing
+to an internal or external web page or other ressource.</P>
+
+<P>A line of the link file has the following format defining one link:</P>
+
+<P class=indent>
+  <CODE>linksymbol linkdestination</CODE>
+</P>
+
+<P>The linksymbol may contain alphanumeric and <em>underscore</em>,
+<em>colon</em> and <em>dot</em> characters (<B><TT>:./</TT></B>).</P>
+
+<P>If the linkdestination starts with <code>this:</code> it points to an internal
+web page and is interpreted as relative path. If the linkdestination is
+<code>*</code> it equals the linksymbol. All other linkdestinations are
+interpreted as references to external web pages and are prefixed with
+<code>http://</code>.</P>
+
+<P>Lines starting with <code>#</code> are treated as comments and define no link
+symbol. Empty lines are ignored.</P>
+
+<P>I recommend to use some kind of hierarchical naming scheme for the linksymbols,
+for example by prefixing the linksymbols with a category and if required
+additional subcategories seperated by colons. An example would be:</P>
+
+<P class=indent>
+  <CODE>w3:html:spec4 www.w3.org/TR/html4/</CODE>
+</P>
+
+<P>And another advice: Use the link file and don't put URLs in your source code.
+It may look easier in some cases at first sight,  but you will regret it later,
+when maintenance of changing links becomes a nightmare.</P>

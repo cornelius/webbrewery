@@ -1,0 +1,7 @@
+This directory contains example files for the WebBrewery. These are used by the
+startbrewery script as template. Please do not change the data in this directory.
+You can easily create a new project from this template by calling startbrewery.
+With such a new project you can play around as you like without disturbing the
+brewery.
+
+Have fun!

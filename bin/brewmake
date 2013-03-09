@@ -1,0 +1,88 @@
+#!/usr/local/bin/perl
+# $Id: brewmake,v 1.3 2000/09/15 23:36:51 cornelius Exp $
+#
+#    This file is part of the WebBrewery
+#    Copyright (C) 2000  Cornelius Schumacher
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+#    Contact Info:
+#      WWW:  http://webbrewery.sourceforge.net
+#      Mail: Cornelius Schumacher <schumacher@asic.uni-heidelberg.de>
+#
+
+#
+# brewmake - Generate make rules from content description
+#
+
+require "brew.conf";
+
+if (@ARGV != 4) {
+  print "Usage: brewmake <contentfile> <htmloutputdir> <target> <outputfile>\n";
+  exit;
+}
+
+$contentfile = $ARGV[0];
+$outputdir = $ARGV[1];
+$target = $ARGV[2];
+$outfile = $ARGV[3];
+
+$srcext =~ /(\w+)\.\w/;
+$srcpresuffix = $1;
+
+require "@ENV{WEBBREWERYDIR}/bin/contentdb.pl";
+
+# Create output directory if necessary
+@output = split ("/",glob ($outputdir));
+foreach (@output) {
+  if (defined $path) {
+    if ($path !~ /\/$/) { $path .= "/"; }
+  }
+  $path .= $_;
+  if (-d $path && -e $path) {
+#    print "$path exists\n";
+  } else {
+    if (length($_) > 0 ) {
+      print "Creating directory $path";
+      unless (mkdir $path,0755) {
+        print " failed!\n";
+      } else {
+        print "\n";
+      }
+    }
+  }
+}
+
+for ($i=0;$i<@contentdb;++$i) {
+  $pagename = $contentdb[$i][2];
+  $suffix = $contentdb[$i][5];
+  push @all,"$outputdir/$pagename.$suffix";
+}
+
+open OUT,">$outfile" or die "brewmake: Cannot open output file $outfile";
+  print OUT "$target: @all\n\n";
+  for ($i=0;$i<@contentdb;++$i) {
+    $pagename = $contentdb[$i][2];
+    $templatefile = $contentdb[$i][4];
+    $suffix = $contentdb[$i][5];
+    print OUT "$outputdir/$pagename.$suffix: ";
+    print OUT "src/$pagename.$srcpresuffix.$suffix ";
+    print OUT "$contentfile $linkdbname $figdbname $templatefile ";
+    print OUT "Makefile $outfile $ENV{WEBBREWERYDIR}/bin/brewmake ";
+    print OUT "$ENV{WEBBREWERYDIR}/bin/brewhtml\n";
+    print OUT "\tperl $ENV{WEBBREWERYDIR}/bin/brewhtml $pagename ";
+    print OUT "$contentfile $outputdir $templatefile $suffix\n\n";
+  }
+close OUT;

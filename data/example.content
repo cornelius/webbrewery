@@ -1,0 +1,4 @@
+# This is the contents description of the web page hierarchy
+index Main example page
+>sub Sub example page
+>-hidden Hidden example page

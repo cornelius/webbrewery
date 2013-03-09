@@ -1,0 +1,5 @@
+COPY: webbrewerydoc.css
+COPY: logo.png
+COPY: beerback.jpg
+#LINK: images /home/cdphysik/images
+#LINK: data /home/cdphysik/data

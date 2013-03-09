@@ -1,0 +1,22 @@
+Things to do:
+
+6.9.99
+
+  - Script to start a project. Should get its location from $0 and than set up a
+    directory structure and an example set of configuration files.
+    Syntax: brew <projectprefix> <destinationdirectory>
+  + done: 7.9.99
+    
+  - Get all configurations from one simple text file without programming
+    language in it.
+  + done  
+    
+  - Use perl to call the perl scripts (Get rid of #!/usr/local/perl lines)
+  + done
+  
+  - Set up usage of environment variable WEBBREWERYDIR for global files.
+  + done
+  
+19.1.00
+
+  - Random saying symbol

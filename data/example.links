@@ -1,0 +1,11 @@
+#beispiele:
+#externer link
+#cern:home www.cern.ch
+#interner link
+#this:docs this:docs.html
+# * bedeutet: linkname=linkspec
+#this:DATA/docs/remman.ps *
+
+# Der Style Sheet
+this:css this:example.css
+

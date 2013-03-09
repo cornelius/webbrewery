@@ -1,0 +1,62 @@
+#!/bin/bash
+#
+#    This file is part of the WebBrewery
+#    Copyright (C) 2000  Cornelius Schumacher
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+#    Contact Info:
+#      WWW:  http://webbrewery.sourceforge.net
+#      Mail: Cornelius Schumacher <schumacher@asic.uni-heidelberg.de>
+#
+
+#
+# startbrewery - Script to start a web brewery project
+#
+
+if [ -z $1 ] || [ -z $2 ]; then
+  echo "Usage: startbrewery <projectname> <projectdirectory>"
+  exit;
+fi
+
+if [ -z $WEBBREWERYDIR ]; then
+  echo "You have to set the environment variable WEBBREWERYDIR accordingly"
+  exit;
+fi
+
+PRJNAME=$1
+PRJDIR=$2
+
+if [ -e $PRJDIR ]; then
+  echo "Directory $PRJDIR already exists. Aborting."
+  exit;
+fi
+
+mkdir $PRJDIR
+mkdir $PRJDIR/.Makedata
+cp -r $WEBBREWERYDIR/data/src $PRJDIR
+mv $PRJDIR/src/example.css $PRJDIR/src/$PRJNAME.css
+sed <$WEBBREWERYDIR/data/Makefile s/example/$PRJNAME/ >$PRJDIR/Makefile
+sed <$WEBBREWERYDIR/data/brew.conf s/example/$PRJNAME/ >$PRJDIR/brew.conf
+cp $WEBBREWERYDIR/data/example.content $PRJDIR/$PRJNAME.content
+cp $WEBBREWERYDIR/data/example.data $PRJDIR/$PRJNAME.data
+sed <$WEBBREWERYDIR/data/example.data s/example/$PRJNAME/ >$PRJDIR/$PRJNAME.data
+cp $WEBBREWERYDIR/data/example.figs $PRJDIR/$PRJNAME.figs
+sed <$WEBBREWERYDIR/data/example.links s/example/$PRJNAME/ \
+  >$PRJDIR/$PRJNAME.links
+cp $WEBBREWERYDIR/data/example.tmpl.html $PRJDIR/$PRJNAME.tmpl.html
+
+echo "Created project $PRJNAME in directory $PRJDIR."
+echo "Edit $PRJDIR/brew.conf and $PRJDIR/Makefile to adapt the brewery to your needs."

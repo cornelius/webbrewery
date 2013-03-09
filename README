@@ -1,0 +1,27 @@
+This is the WebBrewery Version 1.0
+
+To install the WebBrewery you just have to set the environemnt variable
+WEBBREWERYDIR to the directory that contains WebBrewery.
+
+Documentation is in the subdirectory doc. It's in HTML format. Use your web
+browser to view it.
+
+The following files and directories should be present in the WebBrewery base
+directory:
+
+README       - You are reading this file now.
+COPYRIGHT    - Copyright information
+COPYING      - GNU General Public License
+TODO         - Some ideas for the future of the WebBrewery
+startbrewery - A script, which sets up a new project
+bin          - Directory containing the scripts used by the brewery
+data         - Directory containing example data for a new project
+doc          - Documentation. Open doc/index.html in your web-browser.
+docdata      - WebBrewery source code for the documentation.
+
+
+The homepage of the WebBrewry is at http://webbrewery.sourceforge.net
+
+Have fun!
+
+Cornelius Schumacher <schumacher@asic.uni-heidelberg.de>

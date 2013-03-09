@@ -1,0 +1,108 @@
+#!/usr/local/bin/perl
+# $Id: brewdata,v 1.3 2000/09/15 11:18:41 cornelius Exp $
+#
+#    This file is part of the WebBrewery
+#    Copyright (C) 2000  Cornelius Schumacher
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+#    Contact Info:
+#      WWW:  http://webbrewery.sourceforge.net
+#      Mail: Cornelius Schumacher <schumacher@asic.uni-heidelberg.de>
+#
+
+#
+# brewdata - Generate make rules from data description
+#
+
+require "brew.conf";
+
+
+if (@ARGV != 4) {
+  print "Usage: brewdata <datafile> <htmloutputdir> <target> <outputfile>\n";
+  exit;
+}
+
+$datafile = $ARGV[0];
+$outputdir = $ARGV[1];
+$target = $ARGV[2];
+$outfile = $ARGV[3];
+
+# Create output directory if necessary
+@output = split ("/",glob ($outputdir));
+foreach (@output) {
+  if (defined $path) {
+    if ($path !~ /\/$/) { $path .= "/"; }
+  }
+  $path .= $_;
+  if (-d $path && -e $path) {
+#    print "$path exists\n";
+  } else {
+    if (length($_) > 0 ) {
+      print "Creating directory $path";
+      unless (mkdir $path,0755) {
+        print " failed!\n";
+      } else {
+        print "\n";
+      }
+    }
+  }
+}
+
+
+open DATA, "$datafile";
+  while (<DATA>) {
+    if (/^(\w+):\s+([\w\/~\._]+)/) {
+      $dataname = $2;
+#      print "-- $dataname\n";
+      push @data,"$outputdir/$dataname";
+    }
+  }
+close DATA;
+
+open OUT,">$outfile";
+  print OUT "$target: @data\n\n";
+  open DATA, "$datafile";
+    while (<DATA>) {
+      $datatype = 0;
+      $dataname = 0;
+      $dataarg = 0;
+      if (/^(\w+):\s+([\w\/~\._]+)\s*([\w\/~\._]*)/) {
+#        print "%%%%%% $1 %%%%%% $2 %%%%%% $3 %%%%%%%\n";
+        $datatype = $1;
+        $dataname = $2;
+        $dataarg = $3;
+#        print ">>%%%% $1 %%%%%% $2 %%%%%% $dataarg %%%%%%%\n";
+        if ($datatype eq "COPY") {
+          print OUT "$outputdir/$dataname: src/$dataname ";
+          print OUT "$datafile ";
+          print OUT "Makefile $outfile $ENV{WEBBREWERYDIR}/bin/brewdata\n";
+          print OUT "\t\@perl $ENV{WEBBREWERYDIR}/bin/brewcopy src/$dataname \$@\n\n";
+        } elsif ($datatype eq "LINK") {
+          if ($dataarg) {
+            print OUT "$outputdir/$dataname: ";
+            print OUT "$datafile ";
+            print OUT "Makefile $outfile $ENV{WEBBREWERYDIR}/bin/brewdata\n";
+            print OUT "\t\@perl $ENV{WEBBREWERYDIR}/bin/brewlink $dataarg \$@\n\n";
+          } else {
+            print "Type LINK needs an argument\n";
+          }
+        } else {
+          print "Unknown data type: $datatype\n";
+        }
+      }
+    }
+  close DATA;
+close OUT;

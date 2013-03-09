@@ -1,0 +1,34 @@
+<H1>WebBrewery Setup</H1>
+
+<H2>Prerequisites</H2>
+
+<P>You will need Perl and GNU-Make. You will also need an editor to edit your
+HTML source files. Any text editor will do it, but an editor, which helps with
+special symbols like &lt;,&gt;,&auml;,&szlig; or &copy;, which require a special
+representation in HTML will make your life more convenient.</P>
+
+<H2>Installing</H2>
+
+<P>Unzip and extract the archive to a location you are comfortable with. Then
+set the environment variable <code>WEBBREWERYDIR</code> to this location,
+preferably in your <code>.bashrc</code>. That's all.
+
+<H2>Setting up a new project</H2>
+
+<P>Go to the base directory of the WebBrewery. This should be
+<code>$WEBBREWERYDIR</code>.
+Then call the command</P>
+
+<P class=indent>
+<kbd>./startbrewery &lt;projectname&gt; &lt;projectdir&gt;</kbd>.
+</P>
+
+<P>Choose the project name and directory name as you like. This will create
+you a template of your new project in the project directory. Start from these
+files and modify and extend them.</P>
+
+<P>To specify some directories and files the brewery uses, e.g. the output
+directory, edit the <code>Makefile</code> in the project directory. Another file you
+might want to edit is <code>brew.conf</code>, also located in the project
+directory.
+It contains some settings to customize the creation of your web pages.</P>

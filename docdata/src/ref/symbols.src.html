@@ -1,0 +1,41 @@
+<H1>Symbols available in the HTML source files</H1>
+
+<P>All symbols have to be present in the source files in the form
+<TT>--SYMBOLNAME:ARGUMENT--</TT>. A list of the symbols, each indicating its
+symbolname is given in the following. When an argument is required it is
+described at the particular symbol. Note that you may not omit the colon after
+the symbolname, even if no argument is required. <em>Currently not more than one
+symbol per source file line is supported</em>.</P>
+ 
+<P><B>LINK</B>: A link taken from the link file. A link name is given as
+argument.</P>
+
+<P><B>SUBSTANCE</B>: This symbol is used in the page template to include the
+source file of the page.</P>
+
+<P><B>INCLUDE</B>: Include an HTML source file. The argument specifies a
+filename relative to the src directory. Symbols within the included file are
+processed as usual.
+
+<P><B>NAVBAR</B>: A navigation bar, providing <em>next</em>, <em>previous</em>
+and <em>home</em> links. The destination of the links is taken from the relative
+positions in the contents file, the home link points to the file specified in
+the <tt>brew.conf</tt> file as $homename.</P>
+
+<P><B>SITEMAP</B>: A structured list of all pages of the project.</P>
+
+<P><B>CONTENTS</B>: A table of contents, reflecting the actual location of the
+displayed page.</P>
+
+<P><B>FIG</B>: Inserts an image taken from the figures file. The size of the
+image is calculated automatically. A figure name is given as argument.</P>
+
+<P><B>SIZEDFIG</B>: Inserts an image taken from the figures file. The size of the
+image is not calculated and should be specified explicitly by WIDTH and HEIGHT
+attributes. A figure name is given as argument.</P>
+
+<P><B>LASTCHANGE</B>: Inserts the date, when the source file was changed the
+last time.</P>
+
+<P><B>LASTCHANGEDE</B>: Inserts the date, when the source file was changed the
+last time. Inserts german date.</P>

@@ -1,0 +1,595 @@
+#!/usr/local/bin/perl
+#
+#    This file is part of the WebBrewery
+#    Copyright (C) 2000  Cornelius Schumacher
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+#    Contact Info:
+#      WWW:  http://webbrewery.sourceforge.net
+#      Mail: Cornelius Schumacher <schumacher@asic.uni-heidelberg.de>
+#
+
+#
+# brewhtml - Generate HTML pages from content description
+#
+
+# Read in usser and project specific configuration file (it's a perl script)
+require "brew.conf";
+
+if (@ARGV < 4 || @ARGV > 5) {
+  print "Usage: brewhtml <pagename> <contentfile> <htmloutputdir>";
+  print " <templatefile> <suffix>";
+  print " [mincontentlevel]\n";
+  exit;
+}
+
+$pagename = $ARGV[0]; # Global variable: name of page under processing
+$contentfile = $ARGV[1];
+$outputdir = glob $ARGV[2];
+$templatefile = $ARGV[3];
+$pagesuffix = $ARGV[4];
+if ($ARGV[5]) {
+  $mincontentlevel=$ARGV[5];
+}
+
+$srcext =~ /(\w+)\.\w/;
+$srcpresuffix = $1;
+$srcsuffix = "$srcpresuffix.$pagesuffix";
+
+$srcfile = "$srcdir/$pagename.$srcsuffix";
+
+# Load helper functions
+require "@ENV{WEBBREWERYDIR}/bin/contentdb.pl";
+require "@ENV{WEBBREWERYDIR}/bin/brewutils.pl";
+
+&read_linkdb; # Read in links database
+&read_figdb;  # Read in figures database
+
+#print "Creating page $pagename\n";
+#print "  Minimum displayed content level: $mincontentlevel\n";
+
+if (!open (TMPL,"$templatefile")) {
+  print "Cannot open templeatefile '$templatefile'\n";
+  exit;
+} else { 
+  &create_path("$outputdir/$pagename.$pagesuffix");
+  if (!open (OUT,">$outputdir/$pagename.$pagesuffix")) {
+    print "Cannot open $outputdir/$pagename.$pagesuffix\n";
+    exit;
+  } else {
+#      print "Opened $outputdir/$pagename.$pagesuffix\n";
+    while (<TMPL>) {
+      &out_substituted($_);
+    }
+  }
+  close OUT;
+}
+close TMPL;
+
+exit;
+
+
+sub out_substituted {
+  my $inputline = $_[0];
+  
+  $subs_count++;
+  if ($subs_symbol_count>5) {
+    print "out_subsituted recursion level exceeded 10 \nThis can be caused ";
+    print "by a --SUBSTANCE:-- symbol in a source file\n";
+    exit;
+  }
+
+  if ($inputline =~ /(.*)--(\w+):([\w|:\.\/]*)--(.*)/) {
+#    print "-----FOUND: $2 ----ARG: $3\n";
+    if ($2 eq "CONTENTS") {
+      &create_content;
+    } elsif ($2 eq "SUBSTANCE") {
+      &create_substance;
+    } elsif ($2 eq "INCLUDE") {
+      &create_include($3);
+    } elsif ($2 eq "NAVBAR") {
+      &create_navbar;
+    } elsif ($2 eq "SITEMAP") {
+      &create_sitemap;
+    } else {
+      print OUT $1;
+      if ($2 eq "LINK") {
+        &insert_link($3);
+      } elsif ($2 eq "FIG") {
+        &insert_figure($3);
+      } elsif ($2 eq "SIZEDFIG") {
+        &insert_sizedfig($3);
+      } elsif ($2 eq "THUMB") {
+        &insert_thumb($3);
+      } elsif ($2 eq "LASTCHANGE") {
+        @stat = stat $srcfile;
+        @moddate = localtime($stat[9]);
+        print OUT $moddate[3]," ";
+        print OUT  (Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec)[$moddate[4]];
+        print OUT " ",$moddate[5]+1900;
+      } elsif ($2 eq "LASTCHANGEDE") {
+        @stat = stat $srcfile;
+        @moddate = localtime($stat[9]);
+        print OUT $moddate[3],". ";
+        print OUT (Januar,Februar,"M&auml;rz",April,Mai,Juni,Juli,August,September,Oktober,November,Dezember)[$moddate[4]];
+        print OUT " ",$moddate[5]+1900;
+      } else {
+        print "Unknown symbol: $2\n";
+        # Give out original line without replacement.
+        print OUT "--$2:$3--";
+      }
+      print OUT "$4\n";
+    }
+  } else {
+    print OUT;
+  }
+  
+  $subs_count--;
+}
+
+sub create_substance {
+  open (SRC,$srcfile);
+    while(<SRC>) {
+      &out_substituted($_);
+    }
+  close SRC;
+}
+
+sub create_include {
+  my $includefile = "$srcdir/$_[0].$srcsuffix";
+  open (SRC,$includefile);
+    while(<SRC>) {
+      &out_substituted($_);
+    }
+  close SRC;
+}
+
+# Create list of content
+sub create_content {
+  @pagepath;   # Path to page, which is generated
+  $pagelevel;  # Hierarchy level of page, which is generated
+
+    # Find hierarchy level of page, which is to be generated, and find the path
+    # to that page.
+    $found = 0;
+    $currentlevel = -1;
+    for ($cnr=0;$cnr<@contentdb;++$cnr) {
+  #    print;
+      $hide = $contentdb[$cnr][1];
+      $level = $contentdb[$cnr][0];
+      $currentname = $contentdb[$cnr][2];
+      unless ($found) {
+        if ($level > $currentlevel) {
+          push @pagepath,$currentname;
+        }
+        if ($level < $currentlevel) {
+          for ($i=0;$i<$currentlevel-$level;$i++) {
+            pop @pagepath;
+          }
+        }
+        if ($level <= $currentlevel) {
+          pop @pagepath;
+          push @pagepath,$currentname;
+        }        
+        $currentlevel = $level;
+        if ($currentname eq $pagename) {
+          $found = 1;
+          $pagelevel = $contentdb[$cnr][0];
+        }
+      }
+    }
+#    print "%%%%%%% Path: @pagepath\n"; 
+#    print "%%%%%%% Level: $pagelevel\n";
+
+    # Generate HTML list of contents
+    $currentlevel = -1;
+    $currentpath = 0;
+    $godown = 0;
+    $lastlevel = 0;
+    @path;
+#    print OUT "<UL>\n";
+    for ($cnr=0;$cnr<@contentdb;++$cnr) {
+#      print "%%%%%%% $_";
+      $hide = $contentdb[$cnr][1];
+      $level = $contentdb[$cnr][0];
+      $currentname = $contentdb[$cnr][2];
+      $currenttitle = $contentdb[$cnr][3];
+      $currentsuffix = $contentdb[$cnr][5];
+
+#      print "Dir Entry Level: $level, Name $currentname\n";
+#      print " C Le: $currentlevel\n";
+
+      if ($level > $currentlevel) {
+        push @path,$currentname;
+      }
+      if ($level < $currentlevel) {
+        for ($i=0;$i<$currentlevel-$level;$i++) {
+          pop @path;
+        }
+      }
+      if ($level <= $currentlevel) {
+        pop @path;
+        push @path,$currentname;
+      }
+            
+      if ($level < $currentlevel) {
+        $currentpath = 0;
+      }
+      if ($path[$level] eq $currentname) {
+        $currentpath = 1;
+      }
+      
+      # Find out if the current topic is to be printed
+      $output=0;
+      if ($level <= $mincontentlevel) { $output = 1; }
+      else {
+        $wrongpath = 0;
+        for ($i=0;$i<$level;$i++) {
+          if ($path[$i] ne $pagepath[$i]) { $wrongpath = 1; }
+        }
+        if (!$wrongpath) { $output = 1; }
+        else {
+        }
+      }
+      if ($hide) {
+        $output = 0;
+      }
+
+      # Print out the HTML code for one entry
+      if ($output) {
+#        print " Level $level Lastlevel: $lastlevel\n";
+        if ($level < $lastlevel) {
+          for ($i=0;$i<$lastlevel-$level;$i++) {
+            print OUT "</UL>\n";
+          }
+        }
+#        print " Level $level, Currentlevel $currentlevel\n";
+        if ($level > $currentlevel) {
+          print OUT "<UL TYPE=disc CLASS=content>\n";
+        }
+        if ($currentname eq $pagename) {
+          print OUT "<LI><B>$currenttitle</B></LI>\n";
+        } else {
+          my $currentnametmp = &relative_name($pagename,$currentname);
+            
+          print OUT "<LI><A HREF=\"$currentnametmp.$currentsuffix\">";
+          print OUT "$currenttitle</A></LI>\n";
+        }
+        $lastlevel = $level;
+      }
+      $currentlevel = $level;
+      $oldoutput = $output;
+    }
+
+    if (0 < $lastlevel) {
+      for ($i=0;$i<$lastlevel;$i++) {
+        print OUT "</UL>\n";
+      }
+    }
+
+    print OUT "</UL>\n";
+}
+
+sub create_navbar {
+  my $prevpage,$prevsuffix;
+  my $nextpage,$nextsuffix;
+  my $tmpprevpage,$tmpprevsuffix;
+  my $get_next_page = 0;
+
+  for ($cnr=0;$cnr<@contentdb;++$cnr) {
+    my $scanpage = $contentdb[$cnr][2];
+
+    if ($get_next_page) {
+      $nextpage = $scanpage;
+      $nextsuffix = $contentdb[$cnr][5];
+      last;
+    }
+    if ($scanpage eq $pagename) {
+      $prevpage = $tmpprevpage;
+      $prevsuffix = $tmpprevsuffix;
+      $get_next_page = 1;
+    }
+    $tmpprevpage = $scanpage;
+    $tmpprevsuffix = $contentdb[$cnr][5];
+  }
+
+  if ($nextpage) {
+    print OUT "<A HREF=\"";
+    print OUT &relative_name($pagename,"$nextpage.$nextsuffix");
+    print OUT "\">Next</A>";
+    if (!("$pagename.$suffix" eq $homename)) {
+      print OUT " - ";
+    }
+  }
+  if ($prevpage) {
+    print OUT "<A HREF=\"";
+    print OUT &relative_name($pagename,"$prevpage.$prevsuffix");
+    print OUT "\">Previous</A> - ";
+  }
+  if (!("$pagename.$pagesuffix" eq $homename)) {
+    print OUT "<A HREF=\"";
+    print OUT &relative_name($pagename,$homename);
+    print OUT "\">Home</A>";
+  }
+}
+
+sub create_sitemap {
+  $currentlevel = -1;
+  $currentpath = 0;
+  $godown = 0;
+  @path;
+#  print OUT "<UL>\n";
+  for ($cnr=0;$cnr<@contentdb;++$cnr) {
+#    print "%%%%%%% $_";
+    $hide = $contentdb[$cnr][1];
+    $level = $contentdb[$cnr][0];
+    $currentname = $contentdb[$cnr][2];
+    $currenttitle = $contentdb[$cnr][3];
+    $suffix = $contentdb[$cnr][5];
+
+  #    print "%%%%%%% $_";
+
+    if ($level > $currentlevel) {
+      push @path,$currentname;
+    }
+    if ($level < $currentlevel) {
+      for ($i=0;$i<$currentlevel-$level;$i++) {
+        pop @path;
+      }
+    }
+    if ($level <= $currentlevel) {
+      pop @path;
+      push @path,$currentname;
+    }
+          
+    if ($level < $currentlevel) {
+      $currentpath = 0;
+    }
+    if ($path[$level] eq $currentname) {
+      $currentpath = 1;
+    }
+    
+    if ($level > $currentlevel) {
+      print OUT "<UL TYPE=disc>\n";
+    }
+    if ($level < $currentlevel) {
+      if ($oldoutput) {
+        for ($i=0;$i<$currentlevel-$level;$i++) {
+          print OUT "</UL>\n";
+        }
+      }
+    }
+    my $currentnametmp = &relative_name($pagename,$currentname);
+        
+    print OUT "<LI><A HREF=\"$currentnametmp.$suffix\">";
+    print OUT "$currenttitle</A></LI>\n";
+
+    $currentlevel = $level;
+    $oldoutput = $output;
+  }
+  print OUT "</UL>\n";
+}
+
+sub insert_link {
+#  print "-------ARG: $_[0] -------"; 
+#  print   $linkdb{$_[0]};
+  my $linksymbol = $_[0];
+  my $linkname = $linkdb{$_[0]};
+  my $fulllinkname;
+
+  if (!defined $linkname) {
+    print "Could not find link symbol ´$linksymbol´ in links file.\n";
+  } else {
+    if ($linkname eq "*") {
+      $linkname = $linksymbol;
+    }
+
+    if ($linkname =~ /^this:/) {
+      $linkname =~ s/^this://;
+      $fulllinkname = &relative_name($pagename,$linkname);
+      print OUT "href=\"",$fulllinkname,"\"";  
+    } elsif ($linkname =~ /^mailto:/) {
+      print OUT "href=\"",$linkname,"\"";
+    } else {
+      print OUT "href=\"http://",$linkname,"\"";  
+    }
+  }
+}
+
+sub insert_figure {
+#  print "++++++++ insert_figure\n";
+  my $figsymbol = $_[0];
+  my $figname = $figdb{$figsymbol};
+
+  if (!defined $figname) {
+    print "Could not find figure symbol ´$figsymbol´ in figures file.\n";
+  } else {
+    if ($figname =~ /http:\/\//) {  # Figure is on another www-server
+      print OUT "src=\"",$figname,"\"";
+    } elsif ($figname =~ /^\//) {  # Absolute path to local figure
+      print OUT "src=\"",$figname,"\"";
+      &insert_figuresize("$outputdir\/$figname");
+    } else {  # Relative path to local figure
+      print OUT "src=\"",&relative_name($pagename,$figname),"\"";   
+      &insert_figuresize("$outputdir\/$figname");
+    }
+  }
+}
+
+sub insert_figuresize {
+  my $filename = $_[0];
+
+  if (open IN,"identify -ping $filename 2>/dev/null |") {
+#    print "Openend file '$filename'\n";
+    while (<IN>) {
+#      print;
+      if (/$filename\s+(\d+)x(\d+)/) {
+        print OUT " width=$1 height=$2";
+      }
+    }
+  } else {
+    print "Unable to open figure '$filename'\n";
+  }
+}
+
+sub get_figuresize {
+  my $filename = $_[0];
+  $figure_width = 0;
+  $figure_height = 0;
+
+  if (open IN,"identify -ping $filename 2>/dev/null |") {
+#    print "Openend file '$filename'\n";
+    while (<IN>) {
+#      print;
+      if (/$filename\s+(\d+)x(\d+)/) {
+        $figure_width = $1;
+        $figure_height = $2;
+      }
+    }
+  } else {
+    print "Unable to open figure '$filename'\n";
+  }
+}
+
+sub insert_sizedfig {
+#  print "++++++++ insert_figure\n";
+  my $figsymbol = $_[0];
+  my $figname = $figdb{$figsymbol};
+
+  if (!defined $figname) {
+    print "Could not find figure symbol ´$figsymbol´ in figures file.\n";
+  } else {
+    if ($figname =~ /http:\/\//) {
+      print OUT "src=\"",$figname,"\"";
+    } elsif ($figname =~ /^\//) {
+      print OUT "src=\"",$figname,"\"";
+    } else {
+      print OUT "src=\"",&relative_name($pagename,$figname),"\"";   
+    }
+  }
+}
+
+sub create_thumb {
+  my $filename = $_[0];
+  my $thumbfilename = $_[1];
+  my $height = $_[2];
+  
+  system("convert $filename -geometry x$height $thumbfilename");
+}
+
+sub insert_thumb {
+  my $arg = $_[0];
+  $arg =~ /(\d+):(.*)/;
+  my $size = $1;
+  my $symbol = $2;
+
+#  print "THUMB: size: $size  symbol: $symbol\n";
+
+  my $figname = $figdb{$symbol};
+  if (!defined $figname) {
+    print "Could not find figure symbol ´$symbol´ in figures file.\n";
+  } else {
+    my $filename = "$outputdir/$figname";
+    get_figuresize($filename);
+  
+    my $w = int($figure_width/$figure_height * $size);
+
+    $figname =~ /(.*)(\.\w+)$/;
+    my $thumbfigname = "$1.thumb$2";
+
+    create_thumb("$outputdir/$figname","$outputdir/$thumbfigname",$size);
+
+    print OUT "<a href=\"",&relative_name($pagename,$figname),"\">";
+    print OUT "<img border=\"1\" src=\"",&relative_name($pagename,$thumbfigname),"\" ";
+    insert_figuresize("$outputdir/$thumbfigname");
+    print OUT ">";
+    print OUT "</a>\n";
+  }
+}
+
+sub read_linkdb {
+  open (LINKS,"$linkdbname");
+    while (<LINKS>) {
+      chop;
+      if (/^([\w:\/\.]+)\s+(.*)$/) {
+#      print "======== $1\n";
+        $linkdb{$1} = $2;
+      }
+    }
+  close LINKS;
+  
+#  foreach $name (keys(%linkdb)) {
+#    print "Name: $name  Value: $linkdb{$name}\n";
+#  }
+}
+
+sub read_figdb {
+  open (FIGS,"$figdbname");
+    while (<FIGS>) {
+      chop;
+      if (/^([\w:\/\.]+)\s+(.*)$/) {
+        $figdb{$1} = $2;
+      }
+    }
+  close FIGS;
+
+#  print "Figure database:\n";  
+#  foreach $name (keys(%figdb)) {
+#    print "Name: $name  Value: $figdb{$name}\n";
+#  }
+}
+
+sub relative_name {
+  my $thisname = $_[0];  # Name of current file
+  my $toname = $_[1];    # Name of file which gets path relative to current file
+
+#  print "+++++++++ relative_name ($thisname,$toname)\n";
+  
+  my $tonametmp = $toname;
+  my $thisnametmp = $thisname;
+  my ($to,$this);
+  for(;;) {
+    if ($tonametmp =~ /^(\w+)\//) { $to = $1; }
+    else { $to = ""; }
+    if ($thisnametmp =~ /^(\w+)\//) { $this = $1; }
+    else { $this = ""; }
+#    print "------ TO: $to ------ THIS: $this\n";
+    if ($to eq $this) {
+      $tonametmp =~ s/^(\w+)\///;
+      $thisnametmp =~ s/^(\w+)\///;
+      if (!$to) { last; }
+    } else {
+      last;
+    }
+  }
+  my @topath = split /\//,$tonametmp;
+  my @thispath = split /\//,$thisnametmp;
+  my $numto = scalar(@topath);
+  my $numthis = scalar(@thispath);
+#  print "++++++++ $numto $numthis\n";
+#  if ($numto < $numthis) {
+#    for($i=0;$i<$numthis-$numto;$i++) {
+#      $tonametmp = "../" . $tonametmp;
+#    }
+#  }
+  for($i=0;$i<$numthis-1;$i++) {
+    $tonametmp = "../" . $tonametmp;
+  }
+
+#  print "--------- result: $tonametmp\n";
+  
+  $tonametmp;  # return relative file name
+}

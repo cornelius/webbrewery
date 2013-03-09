@@ -1,0 +1,18 @@
+BODY { background: #fd0;
+       color: black; font-family: sans-serif }
+P {font-family: sans-serif }
+H1,H2,H3,H4 {font-family: sans-serif; }
+UL {font-family: sans-serif }
+DIV {font-family: sans-serif }
+TD.contentcol { border-style: solid; border-color: black;
+                background: #ddd; color: black }
+TD.logo {background: white; color: black }
+TD.substance { background: #ddd; color: black }
+TH.header {background: white; color: black; font-family: sans-serif }
+#title { font-size: large }
+H1.contentheading { font-size: large }
+DIV.frame { border: 1mm solid black }
+#copyright { font-size: x-small }
+KBD { font-family: monospace; font-weight: bold; color: #222 }
+CODE { font-family: monospace; font-weight: bold; color: #222 }
+P.indent { margin-left: 20px }

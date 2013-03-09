@@ -1,0 +1,18 @@
+<H1>The Figures File</H1>
+
+<P>The figure file contains definitions of symbols for figure resources, i.e.
+images. Each line defines one figure resource. Its format is</P>
+
+<P class=indent>
+  <CODE>figuresymbol figurelocation</CODE>
+</P>
+
+<P>The figuresymbol defines a symbol, which can be used in the source file with
+the <code>FIG:</code> symbol. The figurelocation defines the address of the
+figure ressource. It is interpreted local unless a URL starting with
+<code>http://</code> is given. I recommend using a hierachical naming scheme for
+the symbols as described for the link symbols (see <A
+--LINK:this:files:links-->Link File</A>).</P>
+
+<P>Lines starting with <code>#</code> are treated as comments and define no link
+symbol. Empty lines are ignored.</P>
