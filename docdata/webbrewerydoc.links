@@ -9,7 +9,7 @@
 # The Style Sheet
 this:css this:webbrewerydoc.css
 
-mail:cornelius mailto:schumacher@asic.uni-heidelberg.de
+mail:cornelius mailto:schumacher@kde.org
 
 # Local pages
 this:intro         this:intro.html
@@ -29,6 +29,7 @@ this:about         this:about.html
 atlas www.cern.ch/atlas
 cern www.cern.ch
 atlashd wwwasic.kip.uni-heidelberg.de/atlas
+atlashd:old www.kip.uni-heidelberg.de/atlas/old_web/index.html
 
 # Sourceforge links
 sf:home             sourceforge.net
@@ -36,3 +37,8 @@ sf:wb:forums        sourceforge.net/forum/?group_id=9106
 sf:wb:download      sourceforge.net/project/showfiles.php?group_id=9106
 sf:wb:bugreports    sourceforge.net/bugs/?group_id=9106
 sf:wb:cvs           sourceforge.net/cvs/?group_id=9106
+
+# GitHub links
+github:home       github.com
+github:wb:issues  github.com/cornelius/webbrewery/issues
+github:wb:git     github.com/cornelius/webbrewery

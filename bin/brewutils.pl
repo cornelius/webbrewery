@@ -1,4 +1,3 @@
-# $Id: brewutils.pl,v 1.1 2000/09/15 11:18:41 cornelius Exp $
 #
 #    This file is part of the WebBrewery
 #    Copyright (C) 2000  Cornelius Schumacher
@@ -18,8 +17,8 @@
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 #    Contact Info:
-#      WWW:  http://webbrewery.sourceforge.net
-#      Mail: Cornelius Schumacher <schumacher@asic.uni-heidelberg.de>
+#      WWW:  http://github.com/cornelius/webbrewery
+#      Mail: Cornelius Schumacher <schumacher@kde.org>
 #
 
 #

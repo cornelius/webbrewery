@@ -1,3 +1,24 @@
+The WebBrewery is a project I did in 2000 as an easy way to create and maintain
+web sites. The main idea was to create static web pages from some templating
+system augmented with a little bit of extra magic, so that changing links or
+maintaining navigation or site maps can be done with almost no effort.
+
+I used the WebBrewery for a couple of web sites I maintained back then at the
+Heidelberg University. On top of that it was a deep learning dive into
+Makefiles and Perl for me.
+
+Now, 13 years later, I'm amazed that the code still works out of the box. A lot
+of the concepts are still valid today. There are a number of projects, which do
+the same based on a more modern (and possibly saner) choice of technology. So
+while the world has moved the code might still be interesting as a curiosity and
+an artefact from my programming history.
+
+You can find the home page and documentation at
+http://cornelius.github.com/webbrewery (and please don't mind the design ;-).
+
+Here goes the (slightly adjusted) original README:
+
+
 This is the WebBrewery Version 1.0
 
 To install the WebBrewery you just have to set the environemnt variable
@@ -20,8 +41,8 @@ doc          - Documentation. Open doc/index.html in your web-browser.
 docdata      - WebBrewery source code for the documentation.
 
 
-The homepage of the WebBrewry is at http://webbrewery.sourceforge.net
+The homepage of the WebBrewery is at http://cornelius.github.com/webbrewery
 
 Have fun!
 
-Cornelius Schumacher <schumacher@asic.uni-heidelberg.de>
+Cornelius Schumacher <schumacher@kde.org>
