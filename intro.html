@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+               "http://www.w3.org/TR/REC-html40/strict.dtd"><HTML><HEAD>
+  <TITLE>Web Brewery Documentation</TITLE>
+  <LINK REL=StyleSheet href="webbrewerydoc.css" TYPE="text/css" MEDIA=screen>
+</HEAD>
+<BODY>
+<TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=6 BORDER=0>
+  <TR>
+    <TH CLASS=header colspan=3>WebBrewery Documentation</TH>
+  </TR>
+  
+  <TR><TD colspan=3></TD></TR>
+  
+  <TR>
+    <TD CLASS=contentcol VALIGN=top>
+      <TABLE ALIGN=CENTER CELLPADDING=5><TR><TD>
+        <IMG ALT="This should be a logo" src="logo.png">
+      </TD></TR></TABLE>
+      <DIV class=frame>
+        <TABLE BORDER=0 CELLPADDING=10><TR><TD>
+<UL TYPE=disc CLASS=content>
+<LI><A HREF="index.html">Home</A></LI>
+<LI><B>Introduction</B></LI>
+<LI><A HREF="setup.html">Setup</A></LI>
+<LI><A HREF="org.html">Organisation</A></LI>
+<LI><A HREF="ref/index.html">Reference</A></LI>
+<UL TYPE=disc CLASS=content>
+<LI><A HREF="ref/files/index.html">Files</A></LI>
+<LI><A HREF="ref/symbols.html">Symbols</A></LI>
+</UL>
+<LI><A HREF="map.html">Sitemap</A></LI>
+<LI><A HREF="about.html">About...</A></LI>
+</UL>
+        </TD></TR></TABLE>
+      </DIV>
+    </TD>
+    <TD></TD>
+    <TD width=95% class=substance VALIGN=top>
+<H1>Introduction to the WebBrewery</H1>
+
+<P>The WebBrewery is a system for creating web pages. It takes care of the
+annoying tasks of web page design like maintaining links or consistent layout of
+the pages. You will need to know what you are doing when using the WebBrewery,
+but it will pay off. If you are afraid of Perl, Makefiles or even HTML,
+you will become happier with some other tools.</P>
+
+<P>The basic principle of the WebBrewery is that you don't duplicate redundant
+data. You use templates to create the parts of your web pages which are always
+the same, you use central link, data and figure definition files to maintain
+your references to other URLs and figures.</P>
+
+<P>The boring aspects of web page creation are the job of the brewery. Despite
+the templates and central files you just provide the pure HTML source code for
+your pages, containing only the information you want to publish, not the
+redundant headers, layout stuff, navigation elements or explicit URLs.
+This makes management of your
+web site easy. The WebBrewery takes care of actual creation of web pages,
+insertion of links, layout, navigation and some other details, you don't want
+to care about.
+</P>
+
+<P>This documentation was also created with the WebBrewery. Its source is
+included with the distribution. Also a small example project is included. Have a
+look at this example code when in doubt of the exact function of the
+scripts.</P>
+
+<P>What you have to know in order to efficiently use the WebBrewery is collected
+in this documentaion pages. The organisation of the scripts and data is
+described, detailed information about the format of the configuration files is
+given and a complete reference of used symbols is provided.</P>
+
+<P>Note that the WebBrewery is an open-source project. This means that you can
+help making the WebBrewer a better tool by providing comments, bug-reports,
+suggestions, patches or whatever you feel to be appropriate.</P>
+
+<P>I hope you have some fun with the WebBrewery.</P>
+    </TD>
+  </TR>
+
+  <TR>
+    <TD class=contentcol>
+      <DIV align=center id=copyright>
+      &copy; 2000 <A href="mailto:schumacher@asic.uni-heidelberg.de">Cornelius Schumacher</A>
+      </DIV>    
+    </TD>
+    <TD></TD>
+    <TD class=substance>
+      <HR>
+      <DIV ALIGN=CENTER>
+<A HREF="setup.html">Next</A> - <A HREF="index.html">Previous</A> - <A HREF="index.html">Home</A>      </DIV>
+    </TD>
+  </TR>
+
+</TABLE>
+</BODY></HTML>

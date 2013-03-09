@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+               "http://www.w3.org/TR/REC-html40/strict.dtd"><HTML><HEAD>
+  <TITLE>Web Brewery Documentation</TITLE>
+  <LINK REL=StyleSheet href="../../webbrewerydoc.css" TYPE="text/css" MEDIA=screen>
+</HEAD>
+<BODY>
+<TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=6 BORDER=0>
+  <TR>
+    <TH CLASS=header colspan=3>WebBrewery Documentation</TH>
+  </TR>
+  
+  <TR><TD colspan=3></TD></TR>
+  
+  <TR>
+    <TD CLASS=contentcol VALIGN=top>
+      <TABLE ALIGN=CENTER CELLPADDING=5><TR><TD>
+        <IMG ALT="This should be a logo" src="../../logo.png">
+      </TD></TR></TABLE>
+      <DIV class=frame>
+        <TABLE BORDER=0 CELLPADDING=10><TR><TD>
+<UL TYPE=disc CLASS=content>
+<LI><A HREF="../../index.html">Home</A></LI>
+<LI><A HREF="../../intro.html">Introduction</A></LI>
+<LI><A HREF="../../setup.html">Setup</A></LI>
+<LI><A HREF="../../org.html">Organisation</A></LI>
+<LI><A HREF="../index.html">Reference</A></LI>
+<UL TYPE=disc CLASS=content>
+<LI><A HREF="index.html">Files</A></LI>
+<UL TYPE=disc CLASS=content>
+<LI><A HREF="content.html">Contents</A></LI>
+<LI><B>Links</B></LI>
+<LI><A HREF="fig.html">Figures</A></LI>
+<LI><A HREF="data.html">Data</A></LI>
+</UL>
+<LI><A HREF="../symbols.html">Symbols</A></LI>
+</UL>
+<LI><A HREF="../../map.html">Sitemap</A></LI>
+<LI><A HREF="../../about.html">About...</A></LI>
+</UL>
+        </TD></TR></TABLE>
+      </DIV>
+    </TD>
+    <TD></TD>
+    <TD width=95% class=substance VALIGN=top>
+<H1>The Link File</H1>
+
+<P>The link file contains definitions of hyperlinks. Each definition defines a
+link symbol, which can be used in the source files and a destination, pointing
+to an internal or external web page or other ressource.</P>
+
+<P>A line of the link file has the following format defining one link:</P>
+
+<P class=indent>
+  <CODE>linksymbol linkdestination</CODE>
+</P>
+
+<P>The linksymbol may contain alphanumeric and <em>underscore</em>,
+<em>colon</em> and <em>dot</em> characters (<B><TT>:./</TT></B>).</P>
+
+<P>If the linkdestination starts with <code>this:</code> it points to an internal
+web page and is interpreted as relative path. If the linkdestination is
+<code>*</code> it equals the linksymbol. All other linkdestinations are
+interpreted as references to external web pages and are prefixed with
+<code>http://</code>.</P>
+
+<P>Lines starting with <code>#</code> are treated as comments and define no link
+symbol. Empty lines are ignored.</P>
+
+<P>I recommend to use some kind of hierarchical naming scheme for the linksymbols,
+for example by prefixing the linksymbols with a category and if required
+additional subcategories seperated by colons. An example would be:</P>
+
+<P class=indent>
+  <CODE>w3:html:spec4 www.w3.org/TR/html4/</CODE>
+</P>
+
+<P>And another advice: Use the link file and don't put URLs in your source code.
+It may look easier in some cases at first sight,  but you will regret it later,
+when maintenance of changing links becomes a nightmare.</P>
+    </TD>
+  </TR>
+
+  <TR>
+    <TD class=contentcol>
+      <DIV align=center id=copyright>
+      &copy; 2000 <A href="mailto:schumacher@asic.uni-heidelberg.de">Cornelius Schumacher</A>
+      </DIV>    
+    </TD>
+    <TD></TD>
+    <TD class=substance>
+      <HR>
+      <DIV ALIGN=CENTER>
+<A HREF="fig.html">Next</A> - <A HREF="content.html">Previous</A> - <A HREF="../../index.html">Home</A>      </DIV>
+    </TD>
+  </TR>
+
+</TABLE>
+</BODY></HTML>

@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+               "http://www.w3.org/TR/REC-html40/strict.dtd"><HTML><HEAD>
+  <TITLE>Web Brewery Documentation</TITLE>
+  <LINK REL=StyleSheet href="../webbrewerydoc.css" TYPE="text/css" MEDIA=screen>
+</HEAD>
+<BODY>
+<TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=6 BORDER=0>
+  <TR>
+    <TH CLASS=header colspan=3>WebBrewery Documentation</TH>
+  </TR>
+  
+  <TR><TD colspan=3></TD></TR>
+  
+  <TR>
+    <TD CLASS=contentcol VALIGN=top>
+      <TABLE ALIGN=CENTER CELLPADDING=5><TR><TD>
+        <IMG ALT="This should be a logo" src="../logo.png">
+      </TD></TR></TABLE>
+      <DIV class=frame>
+        <TABLE BORDER=0 CELLPADDING=10><TR><TD>
+<UL TYPE=disc CLASS=content>
+<LI><A HREF="../index.html">Home</A></LI>
+<LI><A HREF="../intro.html">Introduction</A></LI>
+<LI><A HREF="../setup.html">Setup</A></LI>
+<LI><A HREF="../org.html">Organisation</A></LI>
+<LI><A HREF="index.html">Reference</A></LI>
+<UL TYPE=disc CLASS=content>
+<LI><A HREF="files/index.html">Files</A></LI>
+<LI><B>Symbols</B></LI>
+</UL>
+<LI><A HREF="../map.html">Sitemap</A></LI>
+<LI><A HREF="../about.html">About...</A></LI>
+</UL>
+        </TD></TR></TABLE>
+      </DIV>
+    </TD>
+    <TD></TD>
+    <TD width=95% class=substance VALIGN=top>
+<H1>Symbols available in the HTML source files</H1>
+
+<P>All symbols have to be present in the source files in the form
+<TT>--SYMBOLNAME:ARGUMENT--</TT>. A list of the symbols, each indicating its
+symbolname is given in the following. When an argument is required it is
+described at the particular symbol. Note that you may not omit the colon after
+the symbolname, even if no argument is required. <em>Currently not more than one
+symbol per source file line is supported</em>.</P>
+ 
+<P><B>LINK</B>: A link taken from the link file. A link name is given as
+argument.</P>
+
+<P><B>SUBSTANCE</B>: This symbol is used in the page template to include the
+source file of the page.</P>
+
+<P><B>INCLUDE</B>: Include an HTML source file. The argument specifies a
+filename relative to the src directory. Symbols within the included file are
+processed as usual.
+
+<P><B>NAVBAR</B>: A navigation bar, providing <em>next</em>, <em>previous</em>
+and <em>home</em> links. The destination of the links is taken from the relative
+positions in the contents file, the home link points to the file specified in
+the <tt>brew.conf</tt> file as $homename.</P>
+
+<P><B>SITEMAP</B>: A structured list of all pages of the project.</P>
+
+<P><B>CONTENTS</B>: A table of contents, reflecting the actual location of the
+displayed page.</P>
+
+<P><B>FIG</B>: Inserts an image taken from the figures file. The size of the
+image is calculated automatically. A figure name is given as argument.</P>
+
+<P><B>SIZEDFIG</B>: Inserts an image taken from the figures file. The size of the
+image is not calculated and should be specified explicitly by WIDTH and HEIGHT
+attributes. A figure name is given as argument.</P>
+
+<P><B>LASTCHANGE</B>: Inserts the date, when the source file was changed the
+last time.</P>
+
+<P><B>LASTCHANGEDE</B>: Inserts the date, when the source file was changed the
+last time. Inserts german date.</P>
+    </TD>
+  </TR>
+
+  <TR>
+    <TD class=contentcol>
+      <DIV align=center id=copyright>
+      &copy; 2000 <A href="mailto:schumacher@asic.uni-heidelberg.de">Cornelius Schumacher</A>
+      </DIV>    
+    </TD>
+    <TD></TD>
+    <TD class=substance>
+      <HR>
+      <DIV ALIGN=CENTER>
+<A HREF="../map.html">Next</A> - <A HREF="files/data.html">Previous</A> - <A HREF="../index.html">Home</A>      </DIV>
+    </TD>
+  </TR>
+
+</TABLE>
+</BODY></HTML>

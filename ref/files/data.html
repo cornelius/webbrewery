@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+               "http://www.w3.org/TR/REC-html40/strict.dtd"><HTML><HEAD>
+  <TITLE>Web Brewery Documentation</TITLE>
+  <LINK REL=StyleSheet href="../../webbrewerydoc.css" TYPE="text/css" MEDIA=screen>
+</HEAD>
+<BODY>
+<TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=6 BORDER=0>
+  <TR>
+    <TH CLASS=header colspan=3>WebBrewery Documentation</TH>
+  </TR>
+  
+  <TR><TD colspan=3></TD></TR>
+  
+  <TR>
+    <TD CLASS=contentcol VALIGN=top>
+      <TABLE ALIGN=CENTER CELLPADDING=5><TR><TD>
+        <IMG ALT="This should be a logo" src="../../logo.png">
+      </TD></TR></TABLE>
+      <DIV class=frame>
+        <TABLE BORDER=0 CELLPADDING=10><TR><TD>
+<UL TYPE=disc CLASS=content>
+<LI><A HREF="../../index.html">Home</A></LI>
+<LI><A HREF="../../intro.html">Introduction</A></LI>
+<LI><A HREF="../../setup.html">Setup</A></LI>
+<LI><A HREF="../../org.html">Organisation</A></LI>
+<LI><A HREF="../index.html">Reference</A></LI>
+<UL TYPE=disc CLASS=content>
+<LI><A HREF="index.html">Files</A></LI>
+<UL TYPE=disc CLASS=content>
+<LI><A HREF="content.html">Contents</A></LI>
+<LI><A HREF="links.html">Links</A></LI>
+<LI><A HREF="fig.html">Figures</A></LI>
+<LI><B>Data</B></LI>
+</UL>
+<LI><A HREF="../symbols.html">Symbols</A></LI>
+</UL>
+<LI><A HREF="../../map.html">Sitemap</A></LI>
+<LI><A HREF="../../about.html">About...</A></LI>
+</UL>
+        </TD></TR></TABLE>
+      </DIV>
+    </TD>
+    <TD></TD>
+    <TD width=95% class=substance VALIGN=top>
+<H1>The Data File</H1>
+
+<P>The data file defines data resources, i.e. data files not subject to
+processing by the WebBrewery. Each line of the data file defines a data
+ressource using the following format:</P>
+
+<P class=indent>
+  <CODE>OPERATION: location</CODE>
+</P>
+
+<P>There are two kinds of operations: <code>COPY:</code> means that the
+resource (a file or directory) at the given location is copied from the
+<code>src</code> directory to
+the output directory. <code>LINK:</code> means that the resource (a file or
+directory) is linked from the output directory to the given location unless it
+already exists as real file or directory at the output directory.</P>
+    </TD>
+  </TR>
+
+  <TR>
+    <TD class=contentcol>
+      <DIV align=center id=copyright>
+      &copy; 2000 <A href="mailto:schumacher@asic.uni-heidelberg.de">Cornelius Schumacher</A>
+      </DIV>    
+    </TD>
+    <TD></TD>
+    <TD class=substance>
+      <HR>
+      <DIV ALIGN=CENTER>
+<A HREF="../symbols.html">Next</A> - <A HREF="fig.html">Previous</A> - <A HREF="../../index.html">Home</A>      </DIV>
+    </TD>
+  </TR>
+
+</TABLE>
+</BODY></HTML>

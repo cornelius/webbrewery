@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+               "http://www.w3.org/TR/REC-html40/strict.dtd"><HTML><HEAD>
+  <TITLE>Web Brewery Documentation</TITLE>
+  <LINK REL=StyleSheet href="webbrewerydoc.css" TYPE="text/css" MEDIA=screen>
+</HEAD>
+<BODY>
+<TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=6 BORDER=0>
+  <TR>
+    <TH CLASS=header colspan=3>WebBrewery Documentation</TH>
+  </TR>
+  
+  <TR><TD colspan=3></TD></TR>
+  
+  <TR>
+    <TD CLASS=contentcol VALIGN=top>
+      <TABLE ALIGN=CENTER CELLPADDING=5><TR><TD>
+        <IMG ALT="This should be a logo" src="logo.png">
+      </TD></TR></TABLE>
+      <DIV class=frame>
+        <TABLE BORDER=0 CELLPADDING=10><TR><TD>
+<UL TYPE=disc CLASS=content>
+<LI><A HREF="index.html">Home</A></LI>
+<LI><A HREF="intro.html">Introduction</A></LI>
+<LI><A HREF="setup.html">Setup</A></LI>
+<LI><B>Organisation</B></LI>
+<LI><A HREF="ref/index.html">Reference</A></LI>
+<UL TYPE=disc CLASS=content>
+<LI><A HREF="ref/files/index.html">Files</A></LI>
+<LI><A HREF="ref/symbols.html">Symbols</A></LI>
+</UL>
+<LI><A HREF="map.html">Sitemap</A></LI>
+<LI><A HREF="about.html">About...</A></LI>
+</UL>
+        </TD></TR></TABLE>
+      </DIV>
+    </TD>
+    <TD></TD>
+    <TD width=95% class=substance VALIGN=top>
+<h1>Organisation of Data</h1>
+
+<P>The WebBrewery uses three directories, a <em>project</em> directory, a
+<em>local preview</em> directory and a <em>public</em> directory.<P>
+
+<p>The <em>project</em> directory contains all control files. The page
+source files are contained in a sub-directory <code>src</code>. The following
+control files are used:</P>
+
+<UL>
+  <LI><CODE>Makefile</CODE>: This is used by the GNU make utility to generate
+  the HTML output. It contains the settings for the output directories. The user
+  should edit this file to adapt it to his needs.</LI>
+  
+  <LI><CODE>brew.conf</CODE>: The WebBrewery configuration file. It contains
+  settings like filenames and suffices or switches for contents generation. The
+  user might want to edit this file to adapt to his needs.</LI>
+
+  <LI><B>Index Files</B>: These files form the database of information relevant
+  to your site, which is not associated with an individual page. There are index
+  files for the structure of the site
+  (<A href="ref/files/content.html"><CODE>projectname.content</CODE></A>),
+  link URLs (<A href="ref/files/links.html"><CODE>projectname.links</CODE></A>),
+  image URLs (<A href="ref/files/fig.html"><CODE>projectname.figs</CODE></A>)
+  and data files
+  (<A href="ref/files/data.html"><CODE>projectname.data</CODE></A>).
+  </LI>
+  
+  <LI><B>Template Files</B>: The appearance of the web site is represented by
+  one or more template files, which contain the HTML code defining the layout
+  and common elements of all pages of a web-site. Usually these template files
+  provide the standard HTML header, navigation elements and some optical
+  elements as frame for the content. By using appropriate templates it is very
+  easy to create web pages with a consistent look and feel. The standard file
+  suffix for templae files is <CODE>.tmpl.html</CODE>.</LI>
+</UL>
+
+<P>The source files provide the content of the web site. They don´t contain
+redundant information like common layout and navigation elements or actual URLs.
+The separation of content on one side and templates and project database on
+the other hand allows you to concentrate on what is important: The information
+you want to provide to the people visiting your web-site.</P>
+
+<P>The <em>local preview</em> output directory is used for HTML output during
+development. It allows to check and test the results of the page generation
+without touching the public versions of your pages. To generate
+the preview version of HTML output use the command:</P>
+<P class=indent><KBD>make all</KBD>.</P>
+
+<P>The <em>public</em> output directory is used as destination, when generating
+public versions of your web-site. It can either be the actual directory your web
+server reads or the source for some mirroring to the location accessible by the
+web server. This mirroring is not (yet) provided by the WebBrewery. To generate
+the public version of HTML output use the command:</P>
+<P class=indent><KBD>make public</KBD>.</P>
+    </TD>
+  </TR>
+
+  <TR>
+    <TD class=contentcol>
+      <DIV align=center id=copyright>
+      &copy; 2000 <A href="mailto:schumacher@asic.uni-heidelberg.de">Cornelius Schumacher</A>
+      </DIV>    
+    </TD>
+    <TD></TD>
+    <TD class=substance>
+      <HR>
+      <DIV ALIGN=CENTER>
+<A HREF="ref/index.html">Next</A> - <A HREF="setup.html">Previous</A> - <A HREF="index.html">Home</A>      </DIV>
+    </TD>
+  </TR>
+
+</TABLE>
+</BODY></HTML>
